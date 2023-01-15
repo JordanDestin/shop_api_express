@@ -1,0 +1,63 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model addresses {
+  id         Int    @id @default(autoincrement()) 
+  address    String    @db.VarChar(255)
+  addressbis String?   @db.VarChar(255)
+  postal     String    @db.VarChar(10)
+  city       String    @db.VarChar(100)
+  created_at DateTime? @db.Timestamp(0)
+  updated_at DateTime? @db.Timestamp(0)
+  user_id    Int    
+  users      users     @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: Restrict, map: "addresses_user_id_foreign")
+
+  @@index([user_id], map: "addresses_user_id_foreign")
+}
+
+model categories {
+  id         Int     @id @default(autoincrement()) 
+  name       String     @db.VarChar(255)
+  created_at DateTime?  @db.Timestamp(0)
+  updated_at DateTime?  @db.Timestamp(0)
+  products   products[]
+}
+
+
+model products {
+  id               Int          @id @default(autoincrement()) 
+  name             String          @db.VarChar(255)
+  description      String          @db.Text
+  quantity_product Int
+  image            String          @db.VarChar(255)
+  active           Boolean
+  price            Int
+  tendance         Boolean         @default(false)
+  created_at       DateTime?       @db.Timestamp(0)
+  updated_at       DateTime?       @db.Timestamp(0)
+  category_id      Int          
+  categories       categories      @relation(fields: [category_id], references: [id], onUpdate: Restrict, map: "products_category_id_foreign")
+
+ 
+}
+
+model users {
+  id                Int      @id @default(autoincrement()) 
+  name              String      @db.VarChar(255)
+  email             String      @unique(map: "users_email_unique") @db.VarChar(255)
+  phone             String?     @db.VarChar(25)
+  email_verified_at DateTime?   @db.Timestamp(0)
+  password          String      @db.VarChar(255)
+  admin             Boolean     @default(false)
+  remember_token    String?     @db.VarChar(100)
+  created_at        DateTime?   @db.Timestamp(0)
+  updated_at        DateTime?   @db.Timestamp(0)
+  addresses         addresses[]
+  
+}
