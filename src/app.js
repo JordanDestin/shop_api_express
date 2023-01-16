@@ -1,6 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 import productRoute from './routes/product.js';
+import categoryRoute from "./routes/category.js"
 
 
 const app = express();
@@ -23,6 +24,7 @@ app.get('/',(req,res)=>{
 }) 
 
 app.use('/api',productRoute);
+app.use('/api',categoryRoute);
 
 
 export default app;
