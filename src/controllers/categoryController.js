@@ -7,11 +7,12 @@ export const getAllCategory =  async (req,res) => {
 }
 
 export const createCategory = async (req, res) => {
-    console.log('tototo')
-    const category = await prisma.categories.create({
-      data: {
-        name: req.body.name,
-      }
-    })
-    res.json({data: category})
-  }
+  console.log(req)
+  const category = await prisma.categories.create({
+    data: {
+      name: req.body.name,
+    },
+  })
+  res.json({data: category})
+}
+
