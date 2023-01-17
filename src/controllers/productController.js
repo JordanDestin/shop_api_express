@@ -8,18 +8,29 @@ export const getAllProducts = async (req, res) => {
 
 
 export const createProduct = async (req, res) => {
-  console.log(req.body)
+
   const product = await prisma.products.create({
     data: {
       name: req.body.name,
       description: req.body.description,
       quantity_product: parseInt(req.body.quantity_product) ,
       image: req.body.image,
-      active: req.body.active,
+      active: JSON.parse(req.body.active),
       price: parseInt(req.body.price),
-      tendance: req.body.tendance,
+      tendance: JSON.parse(req.body.tendance),
       category_id: parseInt(req.body.category_id)
     },
   })
  res.json({data: product})
+}
+
+export const getProduct = async (req, res) => {
+  const id = parseInt(req.params.id );
+  const product = await prisma.products.findFirst({
+    where: {
+      id,
+    }
+  })
+
+  res.json({data: product})
 }

@@ -16,3 +16,13 @@ export const createCategory = async (req, res) => {
   res.json({data: category})
 }
 
+export const getCategory = async (req, res) => {
+  const id = parseInt(req.params.id );
+  const category = await prisma.categories.findFirst({
+    where: {
+      id,
+    }
+  })
+
+  res.json({data: category})
+}
