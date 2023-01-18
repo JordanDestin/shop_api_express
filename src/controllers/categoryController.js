@@ -26,3 +26,28 @@ export const getCategory = async (req, res) => {
 
   res.json({data: category})
 }
+
+export const updateCategory = async (req, res) => {
+  const id = parseInt(req.params.id );
+  const updated = await prisma.categories.update({
+    where: {    
+        id
+    },
+    data: {
+      name: req.body.name,
+    },
+  })
+
+  res.json({data: updated})
+}
+
+export const deleteCategory = async (req, res) => {
+  const id = parseInt(req.params.id );
+  const deleteCategory = await prisma.categories.delete({
+    where: {
+      id
+    }
+  })
+
+  res.json({data: deleteCategory})
+}
